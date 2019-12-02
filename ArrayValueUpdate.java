@@ -22,4 +22,4 @@ public class ArrayValueUpdate
         }
         System.out.println(searchGreatValue(totalValue/ totalNumber, totalValue,totalNumber));
     }
-}
+} 
