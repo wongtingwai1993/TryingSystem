@@ -1,0 +1,51 @@
+-- write your code in PostgreSQL 9.4
+select master_pond.id as pond_id, COALESCE(result.happy_ducks,0) as happy_ducks  from ponds master_pond
+left join
+(
+SELECT d.pond_id, COUNT(d.pond_id) as  happy_ducks
+FROM ponds p inner join ducks d
+ON p.id = d.pond_id
+inner join species s
+on d.species_id = s.id
+where
+(s.temp_preferences = '+' and p	.temperature >= s.temp_limit)
+or (s.temp_preferences = '-' and p.temperature <= s.temp_limit)
+GROUP by d.pond_id
+) as result
+on master_pond.id = result.pond_id
+
+
+-- write your code in PostgreSQL 9.4
+SELECT d.pond_id, COUNT(d.pond_id) as  happy_ducks
+FROM ponds p inner join ducks d
+ON p.id = d.pond_id
+inner join species s
+on d.species_id = s.id
+where
+(s.temp_preferences = '+' and p	.temperature >= s.temp_limit)
+or (s.temp_preferences = '-' and p.temperature <= s.temp_limit)
+GROUP by d.pond_id
+order by d.pond_id
+
+truncate table species
+truncate table ponds
+truncate table ducks
+
+
+-- sample 1
+
+insert into species values (30, '+', 15);
+insert into species values (40, '-', 20);
+insert into species values (50, '-', 31);
+insert into ponds values (1, 13, 'Oregon');
+insert into ponds values (2, 31, 'Oregano');
+insert into ducks values (1, 'Martin', 50, 2);
+insert into ducks values (3, 'Bruno', 30, 1);
+insert into ducks values (9, 'Ignacio', 40, 2);
+insert into ducks values (27, 'Hedwig', 40, 1);
+insert into ducks values (81, 'Marina', 30, 2);
+
+-- sample 2
+insert into species values (1, '+', 10);
+insert into ponds values (10, 5, 'Oregon');
+insert into ducks values (10, 'Hedwig', 1, 10);
