@@ -57,8 +57,10 @@ public class SudokuResolver
         {
             // update sudoku value
             SUDOKU_BOARD[rowIndex][columnIndex] = value;
-            System.out.println( "UPDATED-" + rowIndex + "::" + columnIndex + "::" + value );
-            printSudoku();
+            // System.out.println( "UPDATED-" + rowIndex + "::" + columnIndex +
+            // "::" + value );
+            
+            // printSudoku();
             
             if ( rowIndex == MAX_VALUE - 1 && columnIndex == MAX_VALUE - 1 && SUDOKU_BOARD[rowIndex][columnIndex] != 0 )
             {
@@ -73,8 +75,9 @@ public class SudokuResolver
                 if ( !solveSudoku( targetX, targetY, MIN_VALUE ) )
                 {
                     SUDOKU_BOARD[rowIndex][columnIndex] = 0;
-                    System.out.println( "rollback-" + rowIndex + "::" + columnIndex + "::" + value );
-                    printSudoku();
+                    // System.out.println( "rollback-" + rowIndex + "::" +
+                    // columnIndex + "::" + value );
+                    // printSudoku();
                     
                     // get back previous
                     if ( value + 1 > MAX_VALUE )
@@ -97,8 +100,9 @@ public class SudokuResolver
             if ( value == MAX_VALUE )
             {
                 SUDOKU_BOARD[rowIndex][columnIndex] = 0;
-                System.out.println( "REACH MAX-" + rowIndex + "::" + columnIndex + "::" + value );
-                printSudoku();
+                // System.out.println( "REACH MAX-" + rowIndex + "::" +
+                // columnIndex + "::" + value );
+                // printSudoku();
                 return false;
             }
             return solveSudoku( rowIndex, columnIndex, ++value );
@@ -193,20 +197,22 @@ public class SudokuResolver
                 rowStartIndex = 6;
             }
         }
+        // retrieve column start value
         int colStartIndex = 0;
-        if ( ( currentColIndex + 1 ) % 3 == 0 )
+        int colValue = currentColIndex + 1;
+        if ( colValue % 3 == 0 )
         {
-            if ( ( currentColIndex + 1 ) / 3 == 1 )
+            if ( colValue / 3 == 1 )
             {
                 // group 1
                 colStartIndex = 0;
             }
-            if ( ( currentColIndex + 1 ) / 3 == 2 )
+            if ( colValue / 3 == 2 )
             {
                 // group 2
                 colStartIndex = 3;
             }
-            if ( ( currentColIndex + 1 ) / 3 == 3 )
+            if ( colValue / 3 == 3 )
             {
                 // group 3
                 colStartIndex = 6;
@@ -214,17 +220,17 @@ public class SudokuResolver
         }
         else
         {
-            if ( ( currentColIndex + 1 ) / 3 == 0 )
+            if ( colValue / 3 == 0 )
             {
                 // group 1
                 colStartIndex = 0;
             }
-            if ( ( currentColIndex + 1 ) / 3 == 1 )
+            if ( colValue / 3 == 1 )
             {
                 // group 2
                 colStartIndex = 3;
             }
-            if ( ( currentColIndex + 1 ) / 3 == 2 )
+            if ( colValue / 3 == 2 )
             {
                 // group 3
                 colStartIndex = 6;
@@ -233,9 +239,9 @@ public class SudokuResolver
         
         for ( int x = rowStartIndex; x < rowStartIndex + 3; x++ )
         {
-            for ( int y = 0; y < colStartIndex + 3; y++ )
+            for ( int y = colStartIndex; y < colStartIndex + 3; y++ )
             {
-                if ( value == SUDOKU_BOARD[currentRowIndex][x] )
+                if ( value == SUDOKU_BOARD[x][y] )
                 {
                     return false;
                 }
@@ -274,6 +280,12 @@ public class SudokuResolver
         {
             for ( int y = startingY; y < MAX_VALUE; y++ )
             {
+                // reset column value if row updated
+                if ( x != startingX )
+                {
+                    startingX = x;
+                    y = 0;
+                }
                 if ( CLONE_SUDOKU_BOARD[x][y] == 0 )
                 {
                     targetX = x;
