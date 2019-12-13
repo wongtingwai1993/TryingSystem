@@ -1,5 +1,3 @@
-package com.test;
-
 public class PrintShuffleArray {
 
 	public static void main(String[] args) {

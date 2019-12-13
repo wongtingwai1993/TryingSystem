@@ -1,4 +1,3 @@
-package com.sgx.regsub.common.validation;
 
 public class TestClass
 {
